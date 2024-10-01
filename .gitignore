@@ -2,3 +2,4 @@ data/
 *~
 sortdicom/__pycache__/
 *#
+dist/

@@ -82,7 +82,9 @@ def save_dicoms(
         group_dir = out_dir / group
         group_dir.mkdir(exist_ok=True, parents=True)
         for i, dcm in enumerate(dcms):
-            out_file = str(i).zfill(len(str(len(dcms)))) + ".dcm"
+            out_name = str(i).zfill(len(str(len(dcms)))) + ".dcm"
+            out_file = group_dir / out_name
+
             with out_file.open("wb") as outfile:
                 dcm.save_as(outfile)
     return True
