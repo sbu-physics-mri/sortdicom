@@ -36,14 +36,16 @@ def get_dicoms(rdir: Path | str) -> list[pydicom.dataset.Dataset]:
 
 def group_dicoms(
         dcms: list[pydicom.dataset.Dataset],
+        split: int | None = None,
 ) -> dict[list[pydicom.dataset.Dataset]]:
     """Group related DICOMS together.
 
-    Looks at the first item when the DICOM series description is
+    Looks at the first N items when the DICOM series description is
         split with "_" and uses that as the group.
 
     Args:
         dcms : List of DICOM images.
+        split : If None, uses full series name, else takes the first split items.
 
     Returns:
         grouped_dcms : Dictionary of the format group : list_of_dicoms
@@ -51,7 +53,10 @@ def group_dicoms(
     """
     grouped_dcms = defaultdict(list)
     for dcm in dcms:
-        group = dcm.SeriesDescription.split("_")[0]
+        if split is None:
+            group = dcm.SeriesDescription
+        else:
+            group = "".join(dcm.SeriesDescription.split("_")[split])
         grouped_dcms[group].append(dcm)
     return grouped_dcms
 
@@ -76,11 +81,8 @@ def save_dicoms(
     for group, dcms in grouped_dcms.items():
         group_dir = out_dir / group
         group_dir.mkdir(exist_ok=True, parents=True)
-        for dcm in dcms:
-            out_file = (
-                group_dir
-                / f"{dcm.SeriesDescription}_{dcm.ContentTime}.dcm"
-            )
+        for i, dcm in enumerate(dcms):
+            out_file = str(i).zfill(len(str(len(dcms)))) + ".dcm"
             with out_file.open("wb") as outfile:
                 dcm.save_as(outfile)
     return True

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "sortdicom"
-version = "0.1.0"
+version = "0.2.0"
 description = "Sorts and Anonymises Dicoms"
 authors = ["Alex Drysdale <alexander.drysdale@wales.nhs.uk>"]
 readme = "README.md"
