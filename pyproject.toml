@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "sortdicom"
+version = "0.1.0"
+description = "Sorts and Anonymises Dicoms"
+authors = ["Alex Drysdale <alexander.drysdale@wales.nhs.uk>"]
+readme = "README.md"
+
+[tool.poetry.scripts]
+sortdicom = "sortdicom.__init__:main"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+pydicom = "^3.0.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
