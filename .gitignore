@@ -1,0 +1,4 @@
+data/
+*~
+sortdicom/__pycache__/
+*#
