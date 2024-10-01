@@ -4,6 +4,8 @@ version = "0.1.0"
 description = "Sorts and Anonymises Dicoms"
 authors = ["Alex Drysdale <alexander.drysdale@wales.nhs.uk>"]
 readme = "README.md"
+repository = "https://github.com/sbu-physics-mri/sortdicom"
+homepage = "https://github.com/sbu-physics-mri/sortdicom"
 
 [tool.poetry.scripts]
 sortdicom = "sortdicom.__init__:main"
