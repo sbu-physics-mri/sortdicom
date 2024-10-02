@@ -127,9 +127,6 @@ def test_group_dicoms(dicom: pydicom.dataset.Dataset) -> None:
             dcm_copy.SeriesDescription = f"{group}_{i}"
             dicoms.append(dcm_copy)
 
-    grouped_dicoms = sortdicom.group_dicoms(dicoms, split=0)
-    assert len(grouped_dicoms) == num_groups
-
     def nth_triangular_num(n: int) -> int:
         if n == 1:
             return 1
@@ -137,3 +134,12 @@ def test_group_dicoms(dicom: pydicom.dataset.Dataset) -> None:
 
     grouped_dicoms = sortdicom.group_dicoms(dicoms)
     assert len(grouped_dicoms) == nth_triangular_num(num_groups)
+
+    grouped_dicoms = sortdicom.group_dicoms(dicoms, split=0)
+    assert len(grouped_dicoms) == num_groups
+
+    # Checks saving of grouped dicoms
+    assert sortdicom.save_dicoms(
+        grouped_dicoms,
+        out_dir=tempfile.TemporaryDirectory().name,
+    )
