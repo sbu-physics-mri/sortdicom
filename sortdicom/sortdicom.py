@@ -25,10 +25,11 @@ def get_dicoms(rdir: Path | str) -> list[pydicom.dataset.Dataset]:
     """
     rdir = rdir if isinstance(rdir, Path) else Path(rdir)
     dcms = []
-    for item in [f for f in rdir.iterdir() if f.is_file()]:
-        with contextlib.suppress(pydicom.errors.InvalidDicomError):
-            dcm = pydicom.dcmread(item)
-            dcms.append(dcm)
+    for root, _, files in rdir.walk():
+        for item in files:
+            with contextlib.suppress(pydicom.errors.InvalidDicomError):
+                dcm = pydicom.dcmread(root / item)
+                dcms.append(dcm)
     if not len(dcms):
         logger.warning("No DICOM images found in '%s'", rdir)
     return dcms
