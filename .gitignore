@@ -3,3 +3,5 @@ data/
 sortdicom/__pycache__/
 *#
 dist/
+*.pyc
+.gitignore
