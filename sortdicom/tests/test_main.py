@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 # Python imports
+import copy
 import datetime
 import logging
 import tempfile
@@ -114,5 +115,25 @@ def test_get_dicoms(dicom: pydicom.dataset.Dataset) -> None:
     dcms = sortdicom.get_dicoms(dirs[0].name)
     assert len(dcms) == len(dicoms)
 
-if __name__ == "__main__":
-    test_get_dicoms()
+
+def test_group_dicoms(dicom: pydicom.dataset.Dataset) -> None:
+    """Test group_dicoms."""
+    num_groups = 10
+    group_info = { str(i): i for i in range(1, num_groups + 1) }
+    dicoms = []
+    for group, num in group_info.items():
+        for i in range(num):
+            dcm_copy = copy.deepcopy(dicom)
+            dcm_copy.SeriesDescription = f"{group}_{i}"
+            dicoms.append(dcm_copy)
+
+    grouped_dicoms = sortdicom.group_dicoms(dicoms, split=0)
+    assert len(grouped_dicoms) == num_groups
+
+    def nth_triangular_num(n: int) -> int:
+        if n == 1:
+            return 1
+        return n + nth_triangular_num(n - 1)
+
+    grouped_dicoms = sortdicom.group_dicoms(dicoms)
+    assert len(grouped_dicoms) == nth_triangular_num(num_groups)
