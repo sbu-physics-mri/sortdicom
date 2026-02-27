@@ -24,6 +24,18 @@ RF/
    
 ## Installation
 
+With uvx there's no need to install the tool before first use, just use:
+
+```sh
+uvx sortdicom --help
+```
+
+or to use uv as more traditional package manage, i.e. download the `sortdicom` locally before first use:
+
+```sh
+uv tool install sortdicom
+```
+
 ```
 pip install sortdicom
 ```
